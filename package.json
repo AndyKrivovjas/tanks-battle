@@ -4,8 +4,16 @@
   "description": "Multiplayer online tank game.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
+    "lite": "lite-server",
+    "postinstall": "typings install",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "typings": "typings"
   },
   "author": "Andy Krivovjas",
-  "license": "GNU GPLv3"
+  "license": "GNU GPLv3",
+  "dependencies": {
+    "phaser": "^2.6.2"
+  }
 }
