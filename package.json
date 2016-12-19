@@ -14,6 +14,6 @@
   "author": "Andy Krivovjas",
   "license": "GNU GPLv3",
   "dependencies": {
-    "phaser": "^2.6.2"
+    "p5": "^0.5.5"
   }
 }

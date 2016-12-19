@@ -1,23 +1,17 @@
-class TankGame {
+var maze;
 
-    constructor() {
-        this.game = new Phaser.Game("100%", "100%", Phaser.AUTO, 'content', { preload: this.preload, create: this.create });
-    }
+function setup() {
+  var cols = Math.round(random(5,16));
+  var rows = Math.round(random(5,16));
+  var cell = 50;
 
-    game: Phaser.Game;
-
-    preload() {
-        this.game.load.image('background', 'images/bg.jpg');
-    }
-
-    create() {
-        this.game.add.tileSprite(0, 0, this.game.world.width, this.game.world.height, 'background');
-    }
-
+  createCanvas(cols * cell + 1, rows * cell + 1);
+  maze = new Maze(cols, rows, cell);
+  maze.init();
+  frameRate(30);
 }
 
-window.onload = () => {
-
-    var game = new TankGame();
-
-};
+function draw() {
+  background(240);
+  maze.render();
+}
