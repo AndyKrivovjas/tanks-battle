@@ -14,6 +14,7 @@
   "author": "Andy Krivovjas",
   "license": "GNU GPLv3",
   "dependencies": {
-    "p5": "^0.5.5"
+    "p5": "^0.5.5",
+    "requirejs": "^2.3.2"
   }
 }

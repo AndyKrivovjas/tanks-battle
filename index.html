@@ -5,17 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Tanks</title>
+
+  <!-- FPS meter -->
+  <script src="plugins/fpsmeter.js"></script>
+  <script src="plugins/meter.js"></script>
+
+  <!-- P5.js-->
   <script src="node_modules/p5/lib/p5.min.js"></script>
+
+  <!-- Maze Generator -->
+  <script src="app/cell.js"></script>
   <script src="app/maze.js"></script>
+
+  <!-- Tanks -->
+  <script src="app/tank.js"></script>
+
+  <!-- Main game app -->
   <script src="app/main.js"></script>
+
   <style>
     * {
       margin: 0;
       padding: 0;
     }
+    canvas {
+      margin-top: 52px;
+    }
+    #gameTitle {
+      position: absolute;
+      top: 5px;
+      right: 0;
+      left: 0;
+      padding-left: 150px;
+      font-family: Verdana;
+      font-size: 30px;
+      letter-spacing: 5px;
+    }
   </style>
 </head>
 <body>
+  <div id="gameTitle">Tanks Battle</div>
 
 </body>
+<script>
+window.addEventListener("keydown", function(e) {
+  // space and arrow keys
+  if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+      e.preventDefault();
+  }
+}, false);
+</script>
 </html>
