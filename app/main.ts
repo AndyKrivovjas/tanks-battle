@@ -9,7 +9,9 @@ var game = {
     strokeColorMaze: 0,
     strokeWeightMaze: 4
   },
-  maze: null,
+  maze: {
+    grid: []
+  },
   player: null
 };
 

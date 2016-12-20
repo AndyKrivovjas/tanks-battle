@@ -1,5 +1,6 @@
 class Cell {
 
+  id: string;
   column: number;
   row: number;
   walls: any = {
@@ -17,6 +18,8 @@ class Cell {
     this.column = i;
     this.row = j;
     this.cellWidth = w;
+
+    this.id = "#" + i + j;
   }
 
   isVisited() {
@@ -31,23 +34,24 @@ class Cell {
     this.walls[key] = value;
   }
 
-  index(i, j, cols, rows) {
+  //checking if cell exist end returns index
+  checkAndReturn(i, j) {
     var ii = (this.column + i);
     var jj = (this.row + j);
-    if(ii < 0 || jj < 0 || ii > cols - 1 || jj > rows - 1) {
+    if(ii < 0 || jj < 0 || ii > game.settings.cols - 1 || jj > game.settings.rows - 1) {
       return -1;
     }
 
-    return (this.column + i) + (this.row + j) * cols;
+    return (this.column + i) + (this.row + j) * game.settings.cols;
   }
 
-  checkNeighbors(cols, rows, grid) {
+  checkNeighbors(grid) {
     var neighbors = [];
 
-    var top = grid[this.index(0, -1, cols, rows)];
-    var right = grid[this.index(1, 0, cols, rows)];
-    var bottom = grid[this.index(0, 1, cols, rows)];
-    var left = grid[this.index(-1, 0, cols, rows)];
+    var top = grid[this.checkAndReturn(0, -1)];
+    var right = grid[this.checkAndReturn(1, 0,)];
+    var bottom = grid[this.checkAndReturn(0, 1)];
+    var left = grid[this.checkAndReturn(-1, 0)];
 
     if(top && !top.visited) {
       neighbors.push(top);
@@ -94,6 +98,7 @@ class Cell {
     var x = this.column * this.cellWidth;
     var y = this.row * this.cellWidth;
 
+    //for debug purpose
     if(this.visited) {
       // noStroke();
       // fill(61, 127, 226);

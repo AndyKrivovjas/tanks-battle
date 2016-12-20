@@ -32,7 +32,7 @@ class Maze {
   generate() {
     do {
       this.currentCell.markVisited();
-      var nextCell = this.currentCell.checkNeighbors(this.cols, this.rows, this.grid);
+      var nextCell = this.currentCell.checkNeighbors(this.grid);
       if(nextCell) {
         nextCell.markVisited();
         this.stack.push(this.currentCell);
@@ -70,6 +70,18 @@ class Maze {
       item.show();
     }
 
+  }
+
+  //return cell by column and row number
+  index(i, j) {
+    return i + j * this.cols;
+  }
+
+  determineCell(x, y) {
+    var col = floor(x / this.cellWidth);
+    var row = floor(y / this.cellWidth);
+
+    return this.grid[this.index(col, row)];
   }
 
 }
