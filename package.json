@@ -14,6 +14,7 @@
   "author": "Andy Krivovjas",
   "license": "GNU GPLv3",
   "dependencies": {
+    "@types/lodash": "^4.14.44",
     "lodash": "^4.17.2",
     "p5": "^0.5.5"
   }

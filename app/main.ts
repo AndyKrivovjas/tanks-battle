@@ -9,9 +9,7 @@ var game = {
     strokeColorMaze: 0,
     strokeWeightMaze: 4
   },
-  maze: {
-    grid: []
-  },
+  maze: {},
   player: null
 };
 
@@ -28,6 +26,8 @@ function setup() {
   game.player = new Tank();
   game.player.spawnRandom(game.settings.cols, game.settings.rows, game.settings.cellWidth);
 
+
+  console.log(game.maze.getWalls());
   frameRate(60);
 }
 

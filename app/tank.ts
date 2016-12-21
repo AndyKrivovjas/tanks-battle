@@ -1,14 +1,18 @@
 class Tank {
 
-  x: number;
-  y: number;
+  pos: any = {
+    x: 0,
+    y: 0
+  }
 
   angle: number = 0;
+
   velocity: number = 1.5;
 
   width: number = 20;
+  radius: number;
 
-  state: any = {
+  cell: any = {
     current: Cell,
     prev: Cell
   }
@@ -16,23 +20,27 @@ class Tank {
   blocked: boolean = false;
 
   constructor(x?:number, y?:number) {
-    this.x = x;
-    this.y = y;
+    this.pos = createVector(x, y);
 
     this.angle = random(0, 4 * PI)
+    this.radius = sqrt(pow(this.width, 2) * 2);
   }
 
   spawn(col, row, cellWidth) {
-    this.x = col * cellWidth + cellWidth / 2;
-    this.y = row * cellWidth + cellWidth / 2;
+    var x = col * cellWidth + cellWidth / 2;
+    var y = row * cellWidth + cellWidth / 2;
+
+    this.pos = createVector(x, y);
   }
 
   spawnRandom(cols, rows, cellWidth) {
     var col = round(random(cols - 1));
     var row = round(random(rows - 1));
 
-    this.x = col * cellWidth + cellWidth / 2;
-    this.y = row * cellWidth + cellWidth / 2;
+    var x = col * cellWidth + cellWidth / 2;
+    var y = row * cellWidth + cellWidth / 2;
+
+    this.pos = createVector(x, y);
   }
 
   movement() {
@@ -47,51 +55,74 @@ class Tank {
     }
 
     if (keyIsDown(UP_ARROW)) {
-      var x = this.x + this.velocity * cos(this.angle);
-      var y = this.y + this.velocity * sin(this.angle);
+      var x = this.pos.x + this.velocity * cos(this.angle);
+      var y = this.pos.y + this.velocity * sin(this.angle);
+      var nextMove = createVector(x, y);
 
-      if(!this.blocked && this.freeToGo(x, y)) {
-        this.x = x;
-        this.y = y;
+      this.drawMovmentVector(nextMove, 40);
+
+      if(this.freeToGo(x, y)) {
+        this.pos = nextMove;
       } else {
         this.blocked = true;
       }
     }
 
     if (keyIsDown(DOWN_ARROW)) {
-      this.x -= this.velocity * cos(this.angle);
-      this.y -= this.velocity * sin(this.angle);
+      this.pos.x -= this.velocity * cos(this.angle);
+      this.pos.y -= this.velocity * sin(this.angle);
     }
 
     this.preventOutOfField();
 
   }
 
+  drawMovmentVector(next, multiplier) {
+    push();
+    stroke(255, 0, 0);
+    strokeWeight(1);
+    var pV = this.getPointerVector(next, multiplier);
+    line(this.pos.x, this.pos.y, pV.x, pV.y)
+    pop();
+  }
+
+  getPointerVector(pV, multiplier) {
+    pV = pV.copy();
+    pV.sub(this.pos);
+    pV.normalize();
+    if(multiplier) {
+      pV.mult(multiplier);
+    }
+    pV.add(this.pos);
+
+    return pV;
+  }
+
   freeToGo(x, y) {
-    this.state.prev = _.clone(this.state.current);
-    this.state.current = game.maze.determineCell(x - this.width / 2, y  - this.width / 2);
-    // console.log(this.state.current.column, this.state.current.row);
+    this.cell.prev = _.clone(this.cell.current);
+    this.cell.current = game.maze.determineCell(x, y);
+    // console.log(this.cell.current.column, this.cell.current.row);
     var allow = true;
 
-    if(this.state.current.id !== this.state.prev.id) {
-      console.log(this.state.current.id,this.state.prev.id)
+    if(this.cell.current.id !== this.cell.prev.id) {
+      console.log(this.cell.current.id,this.cell.prev.id)
 
-        console.log(this.state.prev.walls)
+        console.log(this.cell.prev.walls)
 
-      if(this.state.current.column - this.state.prev.column === -1) {
+      if(this.cell.current.column - this.cell.prev.column === -1) {
         console.log('left');
-        allow = !this.state.prev.walls['left'] || !this.state.current.walls['right'];
-      } else if(this.state.current.column - this.state.prev.column === 1) {
+        allow = !this.cell.prev.walls['left'] || !this.cell.current.walls['right'];
+      } else if(this.cell.current.column - this.cell.prev.column === 1) {
         console.log('right');
-        allow = !this.state.prev.walls['right'];
+        allow = !this.cell.prev.walls['right'];
       }
 
-      if(this.state.current.row - this.state.prev.row === -1) {
+      if(this.cell.current.row - this.cell.prev.row === -1) {
         console.log('top');
-        allow = !this.state.prev.walls['top'];
-      } else if(this.state.current.row - this.state.prev.row === 1) {
+        allow = !this.cell.prev.walls['top'];
+      } else if(this.cell.current.row - this.cell.prev.row === 1) {
         console.log('bottom');
-        allow = !this.state.prev.walls['bottom'];
+        allow = !this.cell.prev.walls['bottom'];
       }
     }
     console.log(allow);
@@ -99,16 +130,16 @@ class Tank {
   }
 
   preventOutOfField() {
-    if(this.x < this.width / 2) {
-      this.x = this.width / 2;
-    } else if(this.x > game.settings.canvasWidth - this.width / 2) {
-      this.x = game.settings.canvasWidth - this.width / 2;
+    if(this.pos.x < this.width / 2) {
+      this.pos.x = this.width / 2;
+    } else if(this.pos.x > game.settings.canvasWidth - this.width / 2) {
+      this.pos.x = game.settings.canvasWidth - this.width / 2;
     }
 
-    if(this.y < this.width / 2) {
-      this.y = this.width / 2;
-    } else if(this.y > game.settings.canvasHeight - this.width / 2) {
-      this.y = game.settings.canvasHeight - this.width / 2;
+    if(this.pos.y < this.width / 2) {
+      this.pos.y = this.width / 2;
+    } else if(this.pos.y > game.settings.canvasHeight - this.width / 2) {
+      this.pos.y = game.settings.canvasHeight - this.width / 2;
     }
   }
 
@@ -117,7 +148,7 @@ class Tank {
 
     strokeWeight(1);
     fill(55, 211, 55);
-    translate(this.x, this.y);
+    translate(this.pos.x, this.pos.y);
     rotate(this.angle);
 
     rect(-this.width / 2, -this.width / 2, this.width, this.width);

@@ -64,6 +64,34 @@ class Maze {
     }
   }
 
+  getWalls() {
+    var walls = [];
+    for(let item of this.grid) {
+
+      var points = {
+        top_left: createVector(item.column * item.cellWidth, item.row * item.cellWidth),
+        top_right: createVector((item.column + 1) * item.cellWidth, item.row * item.cellWidth),
+        bottom_left: createVector(item.column * item.cellWidth, (item.row + 1) * item.cellWidth),
+        bottom_right: createVector((item.column + 1) * item.cellWidth, (item.row + 1) * item.cellWidth)
+      }
+
+      if(item.walls.top) {
+        walls.push([points.top_left, points.top_right]);
+      }
+      if(item.walls.bottom) {
+        walls.push([points.bottom_left, points.bottom_right]);
+      }
+      if(item.walls.right) {
+        walls.push([points.top_right, points.bottom_right]);
+      }
+      if(item.walls.left) {
+        walls.push([points.top_left, points.bottom_left]);
+      }
+    }
+
+    return walls;
+  }
+
   render() {
 
     for(let item of this.grid) {
