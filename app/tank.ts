@@ -69,8 +69,17 @@ class Tank {
     }
 
     if (keyIsDown(DOWN_ARROW)) {
-      this.pos.x -= this.velocity * cos(this.angle);
-      this.pos.y -= this.velocity * sin(this.angle);
+      var x = this.pos.x - this.velocity * cos(this.angle);
+      var y = this.pos.y - this.velocity * sin(this.angle);
+      var nextMove = createVector(x, y);
+
+      this.drawMovmentVector(nextMove, 40);
+
+      if(this.freeToGo(x, y)) {
+        this.pos = nextMove;
+      } else {
+        this.blocked = true;
+      }
     }
 
     this.preventOutOfField();
@@ -103,8 +112,7 @@ class Tank {
     this.cell.current = game.maze.determineCell(x, y);
     var allow = true;
 
-    if(this.cell.current.id !== this.cell.prev.id) {
-      // console.log(this.cell.current.id,this.cell.prev.id)
+    /*if(this.cell.current.id !== this.cell.prev.id) {
 
       console.log(this.cell.current.walls);
 
@@ -119,7 +127,7 @@ class Tank {
       } else if(this.cell.current.row - this.cell.prev.row === 1) {
         console.log('bottom');
       }
-    }
+    }*/
 
     for(let wall of this.cell.current.walls.items) {
       if(wall.crossAxis == 'x') {
@@ -140,7 +148,6 @@ class Tank {
       }
     }
 
-    console.log(allow);
     return allow;
   }
 
