@@ -11,6 +11,9 @@
     "allowJs": true,
     "allowUnusedLabels": true
   },
+  "filesGlob": [
+    "app/*.ts"
+  ],
   "files": [
     "plugins/p5.global-mode.d.ts"
   ]

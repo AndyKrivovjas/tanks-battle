@@ -27,7 +27,6 @@ function setup() {
   game.player.spawnRandom(game.settings.cols, game.settings.rows, game.settings.cellWidth);
 
 
-  console.log(game.maze.getWalls());
   frameRate(60);
 }
 

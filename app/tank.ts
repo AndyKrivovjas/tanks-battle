@@ -101,30 +101,45 @@ class Tank {
   freeToGo(x, y) {
     this.cell.prev = _.clone(this.cell.current);
     this.cell.current = game.maze.determineCell(x, y);
-    // console.log(this.cell.current.column, this.cell.current.row);
     var allow = true;
 
     if(this.cell.current.id !== this.cell.prev.id) {
-      console.log(this.cell.current.id,this.cell.prev.id)
+      // console.log(this.cell.current.id,this.cell.prev.id)
 
-        console.log(this.cell.prev.walls)
+      console.log(this.cell.current.walls);
 
       if(this.cell.current.column - this.cell.prev.column === -1) {
         console.log('left');
-        allow = !this.cell.prev.walls['left'] || !this.cell.current.walls['right'];
       } else if(this.cell.current.column - this.cell.prev.column === 1) {
         console.log('right');
-        allow = !this.cell.prev.walls['right'];
       }
 
       if(this.cell.current.row - this.cell.prev.row === -1) {
         console.log('top');
-        allow = !this.cell.prev.walls['top'];
       } else if(this.cell.current.row - this.cell.prev.row === 1) {
         console.log('bottom');
-        allow = !this.cell.prev.walls['bottom'];
       }
     }
+
+    for(let wall of this.cell.current.walls.items) {
+      if(wall.crossAxis == 'x') {
+        if(wall.crossValue == this.cell.current.points.top_left.x && x <= wall.crossValue + this.width / 2) {
+          allow = false;
+        }
+        if(wall.crossValue == this.cell.current.points.bottom_right.x && x >= wall.crossValue - this.width / 2) {
+          allow = false;
+        }
+      }
+      if(wall.crossAxis == 'y') {
+        if(wall.crossValue == this.cell.current.points.top_left.y && y <= wall.crossValue + this.width / 2) {
+          allow = false;
+        }
+        if(wall.crossValue == this.cell.current.points.bottom_right.y && y >= wall.crossValue - this.width / 2) {
+          allow = false;
+        }
+      }
+    }
+
     console.log(allow);
     return allow;
   }

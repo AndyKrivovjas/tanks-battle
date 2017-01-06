@@ -7,8 +7,10 @@ class Cell {
     top: true,
     bottom: true,
     right: true,
-    left: false
-  }
+    left: false,
+    items: []
+  };
+  points: any = {};
   visited: boolean = false;
 
   strokeColor: number = game.settings.strokeColorMaze;
@@ -20,6 +22,13 @@ class Cell {
     this.cellWidth = w;
 
     this.id = "#" + i + j;
+
+    this.points = {
+      top_left: createVector(this.column * this.cellWidth, this.row * this.cellWidth),
+      top_right: createVector((this.column + 1) * this.cellWidth, this.row * this.cellWidth),
+      bottom_left: createVector(this.column * this.cellWidth, (this.row + 1) * this.cellWidth),
+      bottom_right: createVector((this.column + 1) * this.cellWidth, (this.row + 1) * this.cellWidth)
+    }
   }
 
   isVisited() {
@@ -32,6 +41,12 @@ class Cell {
 
   setWall(key:string, value:boolean) {
     this.walls[key] = value;
+  }
+
+  addWall(wall) {
+    if(!_.findKey(this.walls.items, { 'type': wall.type, 'crossValue': wall.crossValue })) {
+      this.walls.items.push(wall);
+    }
   }
 
   //checking if cell exist end returns index

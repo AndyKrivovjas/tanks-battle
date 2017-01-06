@@ -26,7 +26,7 @@ class Maze {
     this.currentCell = this.grid[Math.round(random(this.grid.length))];
 
     this.generate();
-
+    this.getWalls();
   }
 
   generate() {
@@ -76,20 +76,82 @@ class Maze {
       }
 
       if(item.walls.top) {
-        walls.push([points.top_left, points.top_right]);
+        walls.push(this.formatWall([points.top_left, points.top_right]));
       }
       if(item.walls.bottom) {
-        walls.push([points.bottom_left, points.bottom_right]);
+        walls.push(this.formatWall([points.bottom_left, points.bottom_right]));
       }
       if(item.walls.right) {
-        walls.push([points.top_right, points.bottom_right]);
+        walls.push(this.formatWall([points.top_right, points.bottom_right]));
       }
       if(item.walls.left) {
-        walls.push([points.top_left, points.bottom_left]);
+        walls.push(this.formatWall([points.top_left, points.bottom_left]));
+      }
+    }
+
+    for(let wall of walls) {
+      if(wall.type == 'horizontal') {
+        var y = wall.crossValue;
+        var x = min(wall.points[0].x, wall.points[1].x);
+
+        var col = x / this.cellWidth;
+        var row = y / this.cellWidth;
+
+        var cell = this.grid[this.index(col, row)];
+        if(cell) {
+          cell.addWall(wall);
+        }
+        if(row != 0) {
+          var cell = this.grid[this.index(col, row - 1)];
+          if(cell) {
+            cell.addWall(wall);
+          }
+        }
+      }
+      if(wall.type == 'vertical') {
+        var x = wall.crossValue;
+        var y = min(wall.points[0].y, wall.points[1].y);
+
+        var col = x / this.cellWidth;
+        var row = y / this.cellWidth;
+
+        var cell = this.grid[this.index(col, row)];
+        if(cell) {
+          cell.addWall(wall);
+        }
+        if(col != 0) {
+          var cell = this.grid[this.index(col - 1, row)];
+          if(cell) {
+            cell.addWall(wall);
+          }
+        }
       }
     }
 
     return walls;
+  }
+
+  formatWall(points:array) {
+    var wall = {
+      points: [],
+      type: '',
+      crossAxis: '',
+      crossValue: 0
+    };
+
+    wall.points = points;
+
+    if(points[0].y == points[1].y) {
+      wall.type = 'horizontal';
+      wall.crossAxis = 'y';
+      wall.crossValue = points[0].y;
+    } else if(points[0].x == points[1].x) {
+      wall.type = 'vertical';
+      wall.crossAxis = 'x';
+      wall.crossValue = points[0].x;
+    }
+
+    return wall;
   }
 
   render() {
