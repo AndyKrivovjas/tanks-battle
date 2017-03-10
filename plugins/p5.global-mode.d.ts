@@ -1701,8 +1701,10 @@ declare function midiToFreq(midiNote: number): number;
 
 declare var meter:any;
 declare function randomColor(): string
+declare function rectMode(c: any): void
 declare var LEFT_ARROW: number;
 declare var RIGHT_ARROW: number;
 declare var DOWN_ARROW: number;
 declare var UP_ARROW: number;
 declare var _: any;
+declare var CENTER: any;

@@ -156,10 +156,11 @@ class Maze {
       // item.show();
     }
 
+    // drawing the maze
     this.lines.forEach(function(line) {
       push();
       stroke(0);
-      fill(255);
+      fill(0);
       rect(line.body.position.x, line.body.position.y, line.width, line.height);
       pop();
     });

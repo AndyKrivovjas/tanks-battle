@@ -12,12 +12,13 @@ var game = new Game(settings);
 
 var Engine = Matter.Engine,
     World = Matter.World,
+    Vector = Matter.Vector,
     Bodies = Matter.Bodies;
     // Composite = Matter.Composite;
 
 // create an engine
 var engine = Engine.create();
-// engine.world.gravity.y = 0;
+engine.world.gravity.y = 0;
 
 function setup() {
   game.settings.cols = Math.round(random(5,16));

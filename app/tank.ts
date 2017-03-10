@@ -1,24 +1,12 @@
 class Tank {
 
-  body: Matter.Composite;
-  base: any;
-  pos: any = {
-    x: 0,
-    y: 0
-  }
-
-  angle: number = 0;
-  velocity: number = 1.5;
-
+  body: any;
+  velocity: number = 0.001;
   width: number = 20;
 
   constructor(x?:number, y?:number) {
 
-    this.body = Matter.Composite.create();
-    World.add(engine.world, this.body);
-
-    this.pos = createVector(x, y);
-    this.angle = random(0, 4 * PI)
+    this.createBody(x, y);
   }
 
   spawn(col, row, cellWidth) {
@@ -26,8 +14,6 @@ class Tank {
     var y = row * cellWidth + cellWidth / 2;
 
     this.createBody(x, y);
-
-    this.pos = createVector(x, y);
   }
 
   spawnRandom(cols, rows, cellWidth) {
@@ -38,39 +24,48 @@ class Tank {
     var y = row * cellWidth + cellWidth / 2;
 
     this.createBody(x, y);
-
-    this.pos = createVector(x, y);
   }
 
   createBody(x: number, y: number) {
-    this.base = Bodies.rectangle(x, y, this.width, this.width);
-    Matter.Composite.add(this.body, this.base);
+    // setting how fast a force will slow down
+    var options = {
+      friction: 1,
+      frictionAir: 1
+    }
+
+    // creating body
+    this.body = Bodies.rectangle(x, y, this.width, this.width, options);
+
+    // setting a random for spawn
+    this.body.angle = random(0, 2 * PI);
+
+    // finally, adding to the world
+    World.add(engine.world, this.body);
   }
 
   movement() {
     if (keyIsDown(LEFT_ARROW)) {
-      this.angle -= 0.1;
+      this.body.angle -= 0.1;
     }
 
     if (keyIsDown(RIGHT_ARROW)) {
-      this.angle += 0.1;
+      this.body.angle += 0.1;
     }
 
     if (keyIsDown(UP_ARROW)) {
-      var x = this.pos.x + this.velocity * cos(this.angle);
-      var y = this.pos.y + this.velocity * sin(this.angle);
-      var nextMove = createVector(x, y);
+      var x = this.velocity * cos(this.body.angle);
+      var y = this.velocity * sin(this.body.angle);
+      var nextMove = Vector.create(x, y);
 
-      this.pos = nextMove;
+      Matter.Body.applyForce(this.body, this.body.position, nextMove);
     }
 
     if (keyIsDown(DOWN_ARROW)) {
-      var x:any = this.pos.x - this.velocity * cos(this.angle);
-      var y:any = this.pos.y - this.velocity * sin(this.angle);
-      var nextMove = createVector(x, y);
+      var x = this.velocity * cos(this.body.angle);
+      var y = this.velocity * sin(this.body.angle);
+      var nextMove = Vector.mult(Vector.create(x, y), -1); // for inverse
 
-      this.pos = nextMove;
-
+      Matter.Body.applyForce(this.body, this.body.position, nextMove);
     }
 
   }
@@ -81,9 +76,9 @@ class Tank {
 
     strokeWeight(1);
     fill(55, 211, 55);
-    translate(this.base.position.x, this.base.position.y);
-    rotate(this.base.angle);
+    translate(this.body.position.x, this.body.position.y);
+    rotate(this.body.angle);
 
-    rect(-this.width / 2, -this.width / 2, this.width, this.width);
+    rect(0, 0, this.width, this.width);
   }
 }
