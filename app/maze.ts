@@ -5,6 +5,7 @@ class Maze {
   cellWidth: number = 50;
   grid: any[] = [];
   stack: any[] = [];
+  lines: any[] = [];
   currentCell: Cell;
 
   constructor(c:number, r:number, cw?:number) {
@@ -23,10 +24,10 @@ class Maze {
       }
     }
 
-    this.currentCell = this.grid[Math.round(random(this.grid.length))];
+    this.currentCell = this.grid[Math.round(random(0, this.grid.length))];
 
     this.generate();
-    this.getWalls();
+    this.addBodies();
   }
 
   generate() {
@@ -42,6 +43,91 @@ class Maze {
         this.currentCell = this.stack.pop();
       }
     } while(this.stack.length > 0);
+
+    this.grid.forEach(function(cell, key) {
+    });
+  }
+
+  addBodies() {
+    var lines = [];
+    var bodies = [];
+
+    var self = this;
+
+    this.grid.forEach(function(cell) {
+
+      Object.keys(cell.walls).forEach(function(key) {
+        var x = cell.x;
+        var y = cell.y;
+        var w = 0;
+        var h = 0;
+
+        if(['top', 'right'].indexOf(key) != -1 && cell.walls[key] === true) {
+
+          if(key == 'top') {
+            h = game.settings.strokeWeightMaze;
+            w = cell.cellWidth;
+            x += cell.cellWidth / 2;
+          }
+          if(key == 'right') {
+            x += cell.cellWidth;
+            w = game.settings.strokeWeightMaze;
+            h = cell.cellWidth;
+            y += cell.cellWidth / 2;
+          }
+
+          var line = {
+            body: Bodies.rectangle(x, y, w, h, {
+              isStatic: true
+            }),
+            width: w,
+            height: h
+          };
+
+          bodies.push(line.body);
+          lines.push(line);
+        }
+
+      });
+
+    });
+
+    for(let i = 0; i < (self.cols * self.cellWidth); i+=self.cellWidth) {
+      var w = self.cellWidth;
+      var h = game.settings.strokeWeightMaze;
+      var x = i + self.cellWidth / 2;
+      var y = self.rows * self.cellWidth;
+      var line = {
+        body: Bodies.rectangle(x, y, w, h, {
+          isStatic: true
+        }),
+        width: w,
+        height: h
+      };
+
+      bodies.push(line.body);
+      lines.push(line);
+    }
+
+    for(let i = 0; i < (self.rows * self.cellWidth); i+=self.cellWidth) {
+      var w:number = game.settings.strokeWeightMaze;
+      var h:any = self.cellWidth;
+      var y = i + self.cellWidth / 2;
+      var x = 0;
+      var line = {
+        body: Bodies.rectangle(x, y, w, h, {
+          isStatic: true
+        }),
+        width: w,
+        height: h
+      };
+
+      bodies.push(line.body);
+      lines.push(line);
+    }
+
+    this.lines = lines;
+    World.add(engine.world, bodies);
   }
 
   removeWalls(current, next) {
@@ -64,101 +150,19 @@ class Maze {
     }
   }
 
-  getWalls() {
-    var walls = [];
-    for(let item of this.grid) {
-
-      var points = {
-        top_left: createVector(item.column * item.cellWidth, item.row * item.cellWidth),
-        top_right: createVector((item.column + 1) * item.cellWidth, item.row * item.cellWidth),
-        bottom_left: createVector(item.column * item.cellWidth, (item.row + 1) * item.cellWidth),
-        bottom_right: createVector((item.column + 1) * item.cellWidth, (item.row + 1) * item.cellWidth)
-      }
-
-      if(item.walls.top) {
-        walls.push(this.formatWall([points.top_left, points.top_right]));
-      }
-      if(item.walls.bottom) {
-        walls.push(this.formatWall([points.bottom_left, points.bottom_right]));
-      }
-      if(item.walls.right) {
-        walls.push(this.formatWall([points.top_right, points.bottom_right]));
-      }
-      if(item.walls.left) {
-        walls.push(this.formatWall([points.top_left, points.bottom_left]));
-      }
-    }
-
-    for(let wall of walls) {
-      if(wall.type == 'horizontal') {
-        var y = wall.crossValue;
-        var x = min(wall.points[0].x, wall.points[1].x);
-
-        var col = x / this.cellWidth;
-        var row = y / this.cellWidth;
-
-        var cell = this.grid[this.index(col, row)];
-        if(cell) {
-          cell.addWall(wall);
-        }
-        if(row != 0) {
-          var cell = this.grid[this.index(col, row - 1)];
-          if(cell) {
-            cell.addWall(wall);
-          }
-        }
-      }
-      if(wall.type == 'vertical') {
-        var x = wall.crossValue;
-        var y = min(wall.points[0].y, wall.points[1].y);
-
-        var col = x / this.cellWidth;
-        var row = y / this.cellWidth;
-
-        var cell = this.grid[this.index(col, row)];
-        if(cell) {
-          cell.addWall(wall);
-        }
-        if(col != 0) {
-          var cell = this.grid[this.index(col - 1, row)];
-          if(cell) {
-            cell.addWall(wall);
-          }
-        }
-      }
-    }
-
-    return walls;
-  }
-
-  formatWall(points:array) {
-    var wall = {
-      points: [],
-      type: '',
-      crossAxis: '',
-      crossValue: 0
-    };
-
-    wall.points = points;
-
-    if(points[0].y == points[1].y) {
-      wall.type = 'horizontal';
-      wall.crossAxis = 'y';
-      wall.crossValue = points[0].y;
-    } else if(points[0].x == points[1].x) {
-      wall.type = 'vertical';
-      wall.crossAxis = 'x';
-      wall.crossValue = points[0].x;
-    }
-
-    return wall;
-  }
-
   render() {
 
     for(let item of this.grid) {
-      item.show();
+      // item.show();
     }
+
+    this.lines.forEach(function(line) {
+      push();
+      stroke(0);
+      fill(255);
+      rect(line.body.position.x, line.body.position.y, line.width, line.height);
+      pop();
+    });
 
   }
 

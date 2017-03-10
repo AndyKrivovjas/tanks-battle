@@ -16,6 +16,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.44",
     "lodash": "^4.17.2",
+    "matter-js": "^0.12.0",
     "p5": "^0.5.5"
   }
 }

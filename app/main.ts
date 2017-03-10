@@ -1,17 +1,23 @@
-var game = {
-  settings: {
-    cols: 0,
-    rows: 0,
-    cellWidth: 50,
-    canvasWidth: 1280,
-    canvasHeight: 720,
-    background: 230,
-    strokeColorMaze: 0,
-    strokeWeightMaze: 4
-  },
-  maze: {},
-  player: null
+var settings = {
+  cols: 0,
+  rows: 0,
+  cellWidth: 50,
+  canvasWidth: 1280,
+  canvasHeight: 720,
+  background: 230,
+  strokeColorMaze: 0,
+  strokeWeightMaze: 4
 };
+var game = new Game(settings);
+
+var Engine = Matter.Engine,
+    World = Matter.World,
+    Bodies = Matter.Bodies;
+    // Composite = Matter.Composite;
+
+// create an engine
+var engine = Engine.create();
+// engine.world.gravity.y = 0;
 
 function setup() {
   game.settings.cols = Math.round(random(5,16));
@@ -25,7 +31,7 @@ function setup() {
 
   game.player = new Tank();
   game.player.spawnRandom(game.settings.cols, game.settings.rows, game.settings.cellWidth);
-
+  rectMode(CENTER);
 
   frameRate(60);
 }
@@ -35,6 +41,8 @@ function draw() {
 
   game.maze.render();
   game.player.update();
+  Engine.update(engine);
+
 
   meter.tick();
 }

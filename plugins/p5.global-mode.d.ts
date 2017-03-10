@@ -967,7 +967,7 @@ declare function saveFrames(filename: string, extension: string, duration: numbe
 //   param "successCallback" has invalid type: Function(p5.Image)
 //   param "failureCallback" has invalid type: Function(Event)
 //
-// declare function loadImage(path: string, successCallback?: Function(p5.Image), failureCallback?: Function(Event)): p5.Image;
+declare function loadImage(path: string, successCallback?: Function, failureCallback?: Function): p5.Image;
 
 /**
  * Draw an image to the main canvas of the p5js sketch
@@ -1021,6 +1021,7 @@ declare function get(x?: number, y?: number, w?: number, h?: number): any[]|p5.I
  * Loads the pixel data for the display window into the pixels[] array.
  */
 declare function loadPixels(): void;
+declare function updatePixels(): void;
 
 /**
  * <p>Changes the color of any pixel, or writes an image directly to the
@@ -1203,7 +1204,7 @@ declare function sqrt(n: number): number;
 /**
  * Creates a new p5.Vector (the datatype for storing vectors).
  */
-declare function createVector(x?: number, y?: number, z?: number): void;
+declare function createVector(x?: number, y?: number, z?: number): p5.Vector;
 
 // src/math/noise.js
 
@@ -1697,3 +1698,11 @@ declare function midiToFreq(midiNote: number): number;
 // declare function soundFormats(formats: string|Strings): void;
 
 // TODO: Property "{String} failedPath path to the file that failed to load", defined in lib/addons/p5.sound.js, is not a valid JS symbol name
+
+declare var meter:any;
+declare function randomColor(): string
+declare var LEFT_ARROW: number;
+declare var RIGHT_ARROW: number;
+declare var DOWN_ARROW: number;
+declare var UP_ARROW: number;
+declare var _: any;

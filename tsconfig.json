@@ -12,9 +12,10 @@
     "allowUnusedLabels": true
   },
   "filesGlob": [
+    "plugins/p5.global-mode.d.ts",
+    "plugins/matter-js.d.ts",
     "app/*.ts"
   ],
   "files": [
-    "plugins/p5.global-mode.d.ts"
   ]
 }

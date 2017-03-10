@@ -1960,7 +1960,7 @@ declare namespace p5 {
     //   param "w" has invalid type: Integer|undefined
     //   param "h" has invalid type: Integer|undefined
     //
-    // updatePixels(x: number|undefined, y: number|undefined, w: number|undefined, h: number|undefined): void
+    updatePixels(x?: number, y?: number, w?: number, h?: number): void
 
     // TODO: Fix get() errors in src/image/p5.Image.js:
     //
@@ -2347,6 +2347,8 @@ declare namespace p5 {
      * Calculates and returns the angle (in radians) between two vectors.
      */
     static angleBetween(v1: p5.Vector, v2: p5.Vector): number
+
+    static sub(v1: p5.Vector, v2: p5.Vector): p5.Vector
   }
 
   // src/typography/p5.Font.js

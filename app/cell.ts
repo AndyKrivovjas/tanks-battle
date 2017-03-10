@@ -3,12 +3,13 @@ class Cell {
   id: string;
   column: number;
   row: number;
+  x: number;
+  y: number;
   walls: any = {
     top: true,
     bottom: true,
     right: true,
-    left: false,
-    items: []
+    left: false
   };
   points: any = {};
   visited: boolean = false;
@@ -20,6 +21,9 @@ class Cell {
     this.column = i;
     this.row = j;
     this.cellWidth = w;
+
+    this.x = i * w;
+    this.y = j * w;
 
     this.id = "#" + i + j;
 
@@ -41,12 +45,6 @@ class Cell {
 
   setWall(key:string, value:boolean) {
     this.walls[key] = value;
-  }
-
-  addWall(wall) {
-    if(!_.findKey(this.walls.items, { 'type': wall.type, 'crossValue': wall.crossValue })) {
-      this.walls.items.push(wall);
-    }
   }
 
   //checking if cell exist end returns index
@@ -122,6 +120,7 @@ class Cell {
       // rect(x, y, this.cellWidth, this.cellWidth);
     }
 
+    push();
     stroke(this.strokeColor);
     strokeWeight(game.settings.strokeWeightMaze);
     if(this.walls.top) {
@@ -136,6 +135,7 @@ class Cell {
     if(this.walls.left) {
       this.drawLeft(x, y);
     }
+    pop();
 
   }
 
