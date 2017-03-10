@@ -66,7 +66,7 @@ class Maze {
 
           if(key == 'top') {
             h = game.settings.strokeWeightMaze;
-            w = cell.cellWidth;
+            w = cell.cellWidth + game.settings.strokeWeightMaze;
             x += cell.cellWidth / 2;
           }
           if(key == 'right') {
