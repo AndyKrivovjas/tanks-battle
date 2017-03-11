@@ -14,7 +14,7 @@
   "filesGlob": [
     "plugins/p5.global-mode.d.ts",
     "plugins/matter-js.d.ts",
-    "app/*.ts"
+    "app/**/*.ts"
   ],
   "files": [
   ]

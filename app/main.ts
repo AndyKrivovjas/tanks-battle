@@ -6,7 +6,8 @@ var settings = {
   canvasHeight: 720,
   background: 230,
   strokeColorMaze: 0,
-  strokeWeightMaze: 4
+  strokeWeightMaze: 4,
+  defaultWeapon: Gun
 };
 var game = new Game(settings);
 
@@ -14,7 +15,6 @@ var Engine = Matter.Engine,
     World = Matter.World,
     Vector = Matter.Vector,
     Bodies = Matter.Bodies;
-    // Composite = Matter.Composite;
 
 // create an engine
 var engine = Engine.create();

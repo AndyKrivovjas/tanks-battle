@@ -1,6 +1,8 @@
 class Tank {
 
-  body: any;
+  body: Matter.Body;
+  weapon: Weapon;
+
   velocity: number = 0.001;
   width: number = 20;
 
@@ -41,6 +43,14 @@ class Tank {
 
     // finally, adding to the world
     World.add(engine.world, this.body);
+
+    // add the Weapon
+    this.weapon = new game.settings.defaultWeapon(this);
+    this.weapon.setDefault(true);
+  }
+
+  setWeapon() {
+
   }
 
   movement() {
@@ -80,5 +90,7 @@ class Tank {
     rotate(this.body.angle);
 
     rect(0, 0, this.width, this.width);
+
+    this.weapon.show();
   }
 }
