@@ -61,7 +61,8 @@ var Maze = (function () {
                     }
                     var line = {
                         body: Bodies.rectangle(x, y, w, h, {
-                            isStatic: true
+                            isStatic: true,
+                            label: 'wall'
                         }),
                         width: w,
                         height: h
@@ -78,7 +79,8 @@ var Maze = (function () {
             var y = self.rows * self.cellWidth;
             var line = {
                 body: Bodies.rectangle(x, y, w, h, {
-                    isStatic: true
+                    isStatic: true,
+                    label: 'wall'
                 }),
                 width: w,
                 height: h
@@ -93,7 +95,8 @@ var Maze = (function () {
             var x = 0;
             var line = {
                 body: Bodies.rectangle(x, y, w, h, {
-                    isStatic: true
+                    isStatic: true,
+                    label: 'wall'
                 }),
                 width: w,
                 height: h
