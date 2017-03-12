@@ -12,4 +12,4 @@ Hi there! I am creating a simple tank game for me and my friends.
   * **Shoot** - SPACEBAR
 
 ## Demo Page
-[Here](https://andykrivovjas.github.io/tanks-battle/)
+<a href="https://andykrivovjas.github.io/tanks-battle/" target="_blank">Here</a>
