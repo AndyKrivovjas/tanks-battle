@@ -1,0 +1,17 @@
+{
+  "name": "highlight-css",
+  "version": "0.0.2",
+  "repo": "segmentio/highlight-css",
+  "description": "A Highlight plugin for CSS.",
+  "keywords": [],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "scripts": [
+    "lib/index.js"
+  ],
+  "dependencies": {},
+  "development": {
+    "component/assert": "*",
+    "segmentio/highlight": "*"
+  }
+}

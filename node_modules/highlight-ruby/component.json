@@ -1,0 +1,14 @@
+{
+  "name": "highlight-ruby",
+  "repo": "segmentio/highlight-ruby",
+  "description": "Highlight plugin for Ruby",
+  "version": "0.0.1",
+  "keywords": ["ruby"],
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": ["index.js"],
+  "development": {
+    "segmentio/highlight": "*",
+    "component/assert": "*"
+  }
+}

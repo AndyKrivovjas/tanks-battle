@@ -1,0 +1,13 @@
+{
+  "name": "highlight-yaml",
+  "repo": "segmentio/highlight-yaml",
+  "description": "Highlight plugin for yaml",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": ["index.js"],
+  "dependencies": {
+    "segmentio/highlight": "*",
+    "component/assert": "*"
+  }
+}

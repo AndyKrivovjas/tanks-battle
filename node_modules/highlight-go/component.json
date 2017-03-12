@@ -1,0 +1,17 @@
+{
+  "name": "highlight-go",
+  "version": "0.0.1",
+  "repo": "segmentio/highlight-go",
+  "description": "A Highlight plugin for go.",
+  "keywords": [],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "scripts": [
+    "lib/index.js"
+  ],
+  "dependencies": {},
+  "development": {
+    "component/assert": "*",
+    "segmentio/highlight": "*"
+  }
+}

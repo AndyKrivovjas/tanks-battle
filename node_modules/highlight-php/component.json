@@ -1,0 +1,13 @@
+{
+  "name": "highlight-php",
+  "repo": "segmentio/highlight-php",
+  "description": "Highlight plugin for PHP",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": ["index.js"],
+  "development": {
+    "segmentio/highlight": "*",
+    "component/assert": "*"
+  }
+}

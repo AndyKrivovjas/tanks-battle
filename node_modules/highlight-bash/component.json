@@ -1,0 +1,13 @@
+{
+  "name": "highlight-bash",
+  "repo": "segmentio/highlight-bash",
+  "description": "Highlight plugin for Bash",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": ["index.js"],
+  "development": {
+    "component/assert": "*",
+    "segmentio/highlight": "*"
+  }
+}

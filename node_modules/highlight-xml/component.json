@@ -1,0 +1,17 @@
+{
+  "name": "highlight-xml",
+  "version": "0.0.1",
+  "repo": "segmentio/highlight-xml",
+  "description": "A Highlight plugin for XML and HTML.",
+  "keywords": [],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "scripts": [
+    "lib/index.js"
+  ],
+  "dependencies": {},
+  "development": {
+    "component/assert": "*",
+    "segmentio/highlight": "*"
+  }
+}

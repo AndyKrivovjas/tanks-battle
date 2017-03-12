@@ -1,0 +1,13 @@
+{
+  "name": "highlight-csharp",
+  "repo": "segmentio/highlight-csharp",
+  "description": "Highlight plugin for csharp",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": ["index.js"],
+  "development": {
+    "segmentio/highlight": "*",
+    "component/assert": "*"
+  }
+}

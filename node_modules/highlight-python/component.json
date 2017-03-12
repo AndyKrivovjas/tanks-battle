@@ -1,0 +1,13 @@
+{
+  "name": "highlight-python",
+  "repo": "segmentio/highlight-python",
+  "description": "Highlight plugin for Python",
+  "version": "0.0.3",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": ["index.js"],
+  "development": {
+    "segmentio/highlight": "*",
+    "component/assert": "*"
+  }
+}
